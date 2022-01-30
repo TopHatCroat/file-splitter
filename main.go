@@ -9,26 +9,10 @@ import (
 	"strings"
 )
 
-var glob string
-var index int
-var total int
-var help bool
-
-func parseFlags() {
-	flag.StringVar(&glob, "glob", "*", "Glob pattern for files to split")
-
-	flag.IntVar(&index, "index", 0, "Index of current split")
-	flag.IntVar(&total, "total", 2, "Total number of splits")
-
-	flag.BoolVar(&help, "help", false, "Show help")
-
-	flag.Parse()
-
-	if help {
-		flag.PrintDefaults()
-		os.Exit(1)
-	}
-}
+var glob = flag.String("glob", "*", "Glob pattern for files to split")
+var index = flag.Int("index", 0, "Index of current split")
+var total = flag.Int("total", 2, "Total number of splits")
+var help = flag.Bool("help", false, "Show help")
 
 func detectFiles(pattern string, index, total int) []string {
 	var filePaths []string
@@ -58,9 +42,23 @@ func detectFiles(pattern string, index, total int) []string {
 }
 
 func main() {
-	parseFlags()
+	flag.Parse()
 
-	files := detectFiles(glob, index, total)
+	if *help {
+		flag.PrintDefaults()
+		os.Exit(0)
+	}
+
+	if *index < 0 || *index >= *total {
+		fmt.Println("Index must be higher than 0 and less then total")
+		os.Exit(1)
+	}
+
+	fmt.Println(*glob)
+	fmt.Println(*index)
+	fmt.Println(*total)
+
+	files := detectFiles(*glob, *index, *total)
 
 	fmt.Println(strings.Join(files, " "))
 }

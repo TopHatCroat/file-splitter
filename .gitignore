@@ -4,3 +4,6 @@ file-splitter.iml
 
 # binary build
 file-splitter
+
+# test files
+__mock__
