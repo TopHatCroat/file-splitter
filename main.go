@@ -54,10 +54,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println(*glob)
-	fmt.Println(*index)
-	fmt.Println(*total)
-
 	files := detectFiles(*glob, *index, *total)
 
 	fmt.Println(strings.Join(files, " "))
