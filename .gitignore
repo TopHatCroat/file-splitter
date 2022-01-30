@@ -1,0 +1,6 @@
+# IDE
+.idea
+file-splitter.iml
+
+# binary build
+file-splitter
